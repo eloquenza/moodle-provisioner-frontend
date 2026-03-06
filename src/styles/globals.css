@@ -1,0 +1,219 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-size: 16px;
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+
+  /* Moodle Blue as Primary */
+  --primary: #4285f4;
+  --primary-foreground: #ffffff;
+
+  /* Moodle Orange as Secondary */
+  --secondary: #ff6f00;
+  --secondary-foreground: #ffffff;
+
+  --muted: #f8f9fa;
+  --muted-foreground: #6c757d;
+  --accent: #e3f2fd;
+  --accent-foreground: #1565c0;
+  --destructive: #dc3545;
+  --destructive-foreground: #ffffff;
+  --border: rgba(0, 0, 0, 0.18);
+  --input: transparent;
+  --input-background: #f8f9fa;
+  --switch-background: #dee2e6;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: #4285f4;
+
+  /* Action Colors */
+  --success: #28a745;
+  --success-foreground: #ffffff;
+  --warning: #ffc107;
+  --warning-foreground: #212529;
+  --info: #17a2b8;
+  --info-foreground: #ffffff;
+
+  /* Table Header */
+  --table-header: #f1f3f4;
+  --table-header-foreground: #202124;
+
+  --chart-1: #4285f4;
+  --chart-2: #ff6f00;
+  --chart-3: #28a745;
+  --chart-4: #dc3545;
+  --chart-5: #6f42c1;
+  --radius: 0.625rem;
+  --sidebar: #f8f9fa;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #4285f4;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e3f2fd;
+  --sidebar-accent-foreground: #1565c0;
+  --sidebar-border: rgba(0, 0, 0, 0.15);
+  --sidebar-ring: #4285f4;
+}
+
+.dark {
+  --background: #121212;
+  --foreground: #ffffff;
+  --card: #1e1e1e;
+  --card-foreground: #ffffff;
+  --popover: #1e1e1e;
+  --popover-foreground: #ffffff;
+
+  /* Moodle Blue (lighter for dark mode) */
+  --primary: #5a9bff;
+  --primary-foreground: #ffffff;
+
+  /* Moodle Orange (adjusted for dark mode) */
+  --secondary: #ff8f00;
+  --secondary-foreground: #000000;
+
+  --muted: #2a2a2a;
+  --muted-foreground: #b3b3b3;
+  --accent: #2d3748;
+  --accent-foreground: #90cdf4;
+  --destructive: #f56565;
+  --destructive-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.15);
+  --input: #2a2a2a;
+  --input-background: #1f2937; /* or #1f2937 for a Tailwind-ish grey */
+  --ring: #5a9bff;
+
+  /* Action Colors for Dark Mode */
+  --success: #48bb78;
+  --success-foreground: #ffffff;
+  --warning: #ed8936;
+  --warning-foreground: #1a1a1a;
+  --info: #4299e1;
+  --info-foreground: #ffffff;
+
+  /* Table Header for Dark Mode */
+  --table-header: #2d3748;
+  --table-header-foreground: #ffffff;
+
+  --chart-1: #5a9bff;
+  --chart-2: #ff8f00;
+  --chart-3: #48bb78;
+  --chart-4: #f56565;
+  --chart-5: #9f7aea;
+  --sidebar: #1a1a1a;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #5a9bff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2d3748;
+  --sidebar-accent-foreground: #90cdf4;
+  --sidebar-border: rgba(255, 255, 255, 0.15);
+  --sidebar-ring: #5a9bff;
+
+  --text-2xl: 1.5rem;   /* 24px */
+  --text-xl:  1.25rem;  /* 20px */
+  --text-lg:  1.125rem; /* 18px */
+  --text-base: 1rem;    /* 16px */
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    /* v3: do outline color/alpha with raw CSS instead of a Tailwind class */
+    outline-color: color-mix(in srgb, var(--ring), transparent 50%);
+    outline-width: 2px;
+    outline-offset: 2px;
+  }
+
+  /* Apply a ring only when focus is keyboard-visible */
+  :is(
+    a[href],
+    button,
+    input:not([type="hidden"]),
+    select,
+    textarea,
+    [role="button"],
+    [tabindex]:not([tabindex="-1"])
+  ):focus-visible {
+    @apply ring-2 ring-[color:var(--ring)] ring-offset-2 ring-offset-background;
+  }
+
+  /* High-contrast/Windows Forced Colors fallback */
+  @media (forced-colors: active) {
+    :is(
+      a[href], button, input:not([type="hidden"]), select, textarea,
+      [role="button"], [tabindex]:not([tabindex="-1"])
+    ):focus-visible {
+      outline: 2px solid CanvasText;
+      outline-offset: 2px;
+      box-shadow: none;
+    }
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/**
+ * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
+ */
+@layer base {
+  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
+    h1 {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-size: var(--text-xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h4 {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    p {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+
+    label {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    button {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    input {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+  }
+}
+
+html {
+  font-size: var(--font-size);
+}
